@@ -18,6 +18,7 @@ def solve_euler_explicit(f, x0, dt):
 # il faut ensuite tester cette fonction sur une équa diff facile à résoudre et montrer la convergence du schéma à l'ordre 1
 
 # Calcul approximatif de la convergence à partir d'éléments issus de mon TIPE
+
 # Cette fonction calcule l'esperance d'une liste de valeurs pour permettre plus tard la realisation d'une regression lineaire.
 
 
@@ -36,14 +37,12 @@ def variance(X):
 
 
 # Cette fonction calcule la covariance de deux listes de valeurs de meme taille pour permettre plus tard la realisation d'une regression lineaire
-
 def covariance(X, Y):
     X_Y = [X[k]*Y[k] for k in range(len(X))]
     return esperance(X_Y) - esperance(X)*esperance(Y)
 
 
 # Cette fonction realise la regression lineaire d'une nuage de points dont les abscisses sont les valeurs de la liste X et les ordonnees celles de la liste Y. Elle renvoie la pente a et l'ordonnee a l'origine b.
-
 def regression_lineaire(X, Y):
     e_x = esperance(X)
     e_y = esperance(Y)
