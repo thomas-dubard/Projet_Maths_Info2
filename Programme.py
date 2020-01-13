@@ -20,12 +20,14 @@ def solve_euler_explicit(f, x0, dt=0.01, t0=0, tf=1):
     return t, x
 
 
-# Euler explicite d'ordre 1
-def solve_euler_explicit_2(f, x0, dt=0.01, t0=0, tf=1):
-    t = [t0]  # on va prendre la convention que la condition initiale x0 est en t0 qui est global sur tout le programme
+# Euler explicite d'ordre 2: méthode de Heun
+def solve_heun_explicit(f, x0, dt=0.01, t0=0, tf=1):
+    t = [t0]  
+    # on va prendre la convention que la condition initiale x0 est en t0 qui est global sur tout le programme
     x = [x0]
-    while t[-1] < tf and x[-1] < 100:
-        x.append(x[-1] + dt * f(t[-1], x[-1]))
+    while t[-1] < tf:
+        swap = f(t[-1], x[-1]) + f(t[-1], x[-1] + dt * f(t[-1], x[-1]))
+        x.append(x[-1] + (dt/2) * swap)
         t.append(t[-1] + dt)
     t = np.array(t[:-1])
     x = np.array(x[:-1])
@@ -73,10 +75,24 @@ dt = [3*1e-2, 1e-2, 1e-3, 1e-4]
 for i in range(len(dt)):
     t_test, x_test = solve_euler_explicit(f_test, x0, dt[i], t0, t0 + 1)
     x_real = np.exp(t_test)
-    plt.subplot(100*len(dt)+i+11)
+    ax = plt.subplot(100*int(len(dt)/2)+(i)*1+21)
+    ax.set_title(f'Delta t ={dt[i]}')
     plt.plot(t_test, x_test, color='red', label='Values simulated')
     plt.plot(t_test, x_real, color='blue', label='Values calculated')
 plt.show()
+
+from math import log
+
+dt = [3*1e-2, 1e-2, 5*1e-3, 2*1e-3, 1e-3]
+err = []
+for i in range(len(dt)):
+    t_test, x_test = solve_euler_explicit(f_test, x0, dt[i], t0, t0 + 1)
+    err.append(x_test[-1])
+plt.plot([-log(x, 10) for x in dt], err, color='red', label='Values simulated')
+a, b = regression_lineaire([-log(x, 10) for x in dt], err)
+plt.plot([-log(x, 10) for x in dt] , [-a * log(x, 10) + b for x in dt], color='blue', label='simulated')
+plt.show()
+print(a)
 
 # Calcul approximatif de la convergence à partir d'éléments issus de mon TIPE
 
