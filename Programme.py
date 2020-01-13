@@ -66,7 +66,7 @@ def regression_lineaire(X, Y):
 
 # il faut ensuite tester cette fonction sur une équa diff facile à résoudre et montrer la convergence du schéma à l'ordre 1
 def f_test(t, x):
-    return math.exp(x)
+    return x
 
 
 dt = [3*1e-2, 1e-2, 1e-3, 1e-4]
